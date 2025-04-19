@@ -4,6 +4,9 @@ import pyperclip
 import time
 import subprocess
 
+# Define the default public tunnel address
+playit_address = "name-leo.gl.joinmc.link"  # Default public address
+
 # Step 1: Detect the Minecraft LAN port from the log file
 def detect_minecraft_port():
     log_path = os.path.expanduser("~\\AppData\\Roaming\\.minecraft\\logs\\latest.log")
@@ -24,7 +27,6 @@ def detect_minecraft_port():
 
 # Step 2: Restart the Playit tunnel with the new port
 def restart_playit_tunnel(port):
-    playit_address = "name-leo.gl.joinmc.link"  # Your public address
     print(f"🌐 Restarting Playit tunnel with port: {port}", flush=True)
 
     try:

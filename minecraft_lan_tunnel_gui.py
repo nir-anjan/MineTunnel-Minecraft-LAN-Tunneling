@@ -6,7 +6,7 @@ import threading
 import pyperclip
 import subprocess
 from lan_tunnel import detect_minecraft_port, restart_playit_tunnel, stop_playit_tunnel  # Import backend functions
-
+from lan_tunnel import playit_address
 class MinecraftLanTunnelGUI:
     def __init__(self, root):
         self.root = root
@@ -20,7 +20,7 @@ class MinecraftLanTunnelGUI:
 
         # Default values
         self.default_port = "25565"  # Default manual port value
-        self.default_public_address = "name-leo.gl.joinmc.link"  # Default public tunnel address
+        self.default_public_address = playit_address  # Default public tunnel address
 
         # Styles
         self.setup_styles()
