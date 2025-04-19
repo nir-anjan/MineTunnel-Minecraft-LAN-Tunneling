@@ -76,13 +76,12 @@ class MinecraftLanTunnelGUI:
         self.tunnel_address_entry.grid(row=3, column=1, padx=5, pady=5)
 
         # Buttons
-        tk.Button(self.root, text="Launch Minecraft World", command=self.launch_minecraft).grid(row=4, column=0, padx=5, pady=10)
         tk.Button(
             self.root, text="🚀 Start Tunnel",
             command=lambda: self.start_tunnel()
-        ).grid(row=4, column=1, padx=5, pady=10)
-        tk.Button(self.root, text="🛑 Stop Tunnel", command=lambda: self.stop_tunnel()).grid(row=4, column=2, padx=5, pady=10)
-        tk.Button(self.root, text="Copy IP", command=self.copy_ip).grid(row=5, column=1, padx=5, pady=10)
+        ).grid(row=4, column=0, padx=5, pady=10)
+        tk.Button(self.root, text="🛑 Stop Tunnel", command=lambda: self.stop_tunnel()).grid(row=4, column=1, padx=5, pady=10)
+        tk.Button(self.root, text="Copy IP", command=self.copy_ip).grid(row=4, column=2, padx=5, pady=10)
 
         # Status label
         self.status_label = tk.Label(self.root, text="Status: Ready", fg="green")
@@ -105,9 +104,6 @@ class MinecraftLanTunnelGUI:
         if path:
             self.log_path_entry.delete(0, tk.END)
             self.log_path_entry.insert(0, path)
-
-    def launch_minecraft(self):
-        messagebox.showinfo("Launch Minecraft", "This feature is a placeholder. Customize as needed.")
 
     def start_tunnel(self):
         """Override the existing start_tunnel method to use the new logic."""
