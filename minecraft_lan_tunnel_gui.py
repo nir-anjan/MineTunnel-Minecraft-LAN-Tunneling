@@ -42,7 +42,7 @@ def stop_tunnel(status_label):
 class MinecraftLanTunnelGUI:
     def __init__(self, root):
         self.root = root
-        self.root.title("Minecraft LAN Tunnel GUI")
+        self.root.title("MineTunnel - Minecraft LAN Tunneling Made Easy")
 
         # Default paths
         self.default_log_path = os.path.expanduser("~\\AppData\\Roaming\\.minecraft\\logs\\latest.log")
