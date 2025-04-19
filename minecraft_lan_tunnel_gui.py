@@ -6,7 +6,7 @@ import pyperclip
 import subprocess
 from lan_tunnel import detect_minecraft_port, restart_playit_tunnel  # Import backend functions
 
-def start_tunnel(public_address, log_path, status_label, ip_entry, manual_port=None):
+def start_tunnel(public_address, log_path, status_label, manual_port=None):
     """Start the Playit tunnel and update the GUI."""
     port = manual_port if manual_port else detect_minecraft_port()
     if port is None:
@@ -17,17 +17,15 @@ def start_tunnel(public_address, log_path, status_label, ip_entry, manual_port=N
         restart_playit_tunnel(port)
         tunnel_address = f"{public_address}:{port}"
         pyperclip.copy(tunnel_address)
-        ip_entry.delete(0, tk.END)
-        ip_entry.insert(0, tunnel_address)
         status_label.config(text=f"✅ Tunnel started: {tunnel_address}", fg="green")
     except FileNotFoundError:
         status_label.config(text="⚠️ playit.exe not found in PATH!", fg="red")
     except Exception as e:
         status_label.config(text=f"⚠️ Unexpected error: {e}", fg="red")
 
-def start_tunnel_thread(public_address, log_path, status_label, ip_entry, manual_port=None):
+def start_tunnel_thread(public_address, log_path, status_label, manual_port=None):
     """Run the tunnel start process in a separate thread."""
-    threading.Thread(target=start_tunnel, args=(public_address, log_path, status_label, ip_entry, manual_port), daemon=True).start()
+    threading.Thread(target=start_tunnel, args=(public_address, log_path, status_label, manual_port), daemon=True).start()
 
 def stop_tunnel(status_label):
     """Stop the Playit tunnel."""
@@ -70,27 +68,22 @@ class MinecraftLanTunnelGUI:
         self.port_entry = tk.Entry(self.root, width=50)
         self.port_entry.grid(row=2, column=1, padx=5, pady=5)
 
-        # Tunnel public address
-        tk.Label(self.root, text="Tunnel Public Address:").grid(row=3, column=0, sticky="w", padx=5, pady=5)
-        self.tunnel_address_entry = tk.Entry(self.root, width=50)
-        self.tunnel_address_entry.grid(row=3, column=1, padx=5, pady=5)
-
         # Buttons
         tk.Button(
             self.root, text="🚀 Start Tunnel",
             command=lambda: self.start_tunnel()
-        ).grid(row=4, column=0, padx=5, pady=10)
-        tk.Button(self.root, text="🛑 Stop Tunnel", command=lambda: self.stop_tunnel()).grid(row=4, column=1, padx=5, pady=10)
-        tk.Button(self.root, text="Copy IP", command=self.copy_ip).grid(row=4, column=2, padx=5, pady=10)
+        ).grid(row=3, column=0, padx=5, pady=10)
+        tk.Button(self.root, text="🛑 Stop Tunnel", command=lambda: self.stop_tunnel()).grid(row=3, column=1, padx=5, pady=10)
+        tk.Button(self.root, text="Copy IP", command=self.copy_ip).grid(row=3, column=2, padx=5, pady=10)
 
         # Status label
         self.status_label = tk.Label(self.root, text="Status: Ready", fg="green")
-        self.status_label.grid(row=6, column=0, columnspan=3, pady=10)
+        self.status_label.grid(row=5, column=0, columnspan=3, pady=10)
 
         # Output log area
-        tk.Label(self.root, text="Output Log:").grid(row=7, column=0, sticky="w", padx=5, pady=5)
+        tk.Label(self.root, text="Output Log:").grid(row=6, column=0, sticky="w", padx=5, pady=5)
         self.output_text = tk.Text(self.root, height=10, width=70, state="disabled", wrap="word")
-        self.output_text.grid(row=8, column=0, columnspan=3, padx=5, pady=5)
+        self.output_text.grid(row=7, column=0, columnspan=3, padx=5, pady=5)
 
     def append_output(self, message):
         """Append a message to the output log."""
@@ -113,13 +106,12 @@ class MinecraftLanTunnelGUI:
                 self.public_address_entry.get(),
                 self.log_path_entry.get(),
                 self.status_label,
-                self.tunnel_address_entry,
                 self.port_entry.get(),
             ),
             daemon=True,
         ).start()
 
-    def run_tunnel_with_output(self, public_address, log_path, status_label, ip_entry, manual_port=None):
+    def run_tunnel_with_output(self, public_address, log_path, status_label, manual_port=None):
         """Run the tunnel and capture backend outputs."""
         port = manual_port if manual_port else detect_minecraft_port()
         if port is None:
@@ -132,8 +124,6 @@ class MinecraftLanTunnelGUI:
             restart_playit_tunnel(port)
             tunnel_address = f"{public_address}:{port}"
             pyperclip.copy(tunnel_address)
-            ip_entry.delete(0, tk.END)
-            ip_entry.insert(0, tunnel_address)
             status_label.config(text=f"✅ Tunnel started: {tunnel_address}", fg="green")
             self.append_output(f"✅ Tunnel started: {tunnel_address}")
         except FileNotFoundError:
@@ -161,7 +151,7 @@ class MinecraftLanTunnelGUI:
             self.status_label.config(text=error_message, fg="red")
 
     def copy_ip(self):
-        address = self.tunnel_address_entry.get()
+        address = self.public_address_entry.get()
         if address:
             pyperclip.copy(address)
             self.update_status("IP copied to clipboard.", "green")
