@@ -15,7 +15,7 @@ class MinecraftLanTunnelGUI:
         self.root.resizable(True, True)
         self.root.configure(bg="#f4f4f4")
 
-        # Center the window
+        # Center the window.
         self.center_window()
 
         # Default values

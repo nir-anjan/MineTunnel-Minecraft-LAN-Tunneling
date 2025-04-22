@@ -7,7 +7,7 @@ import subprocess
 # Define the default public tunnel address
 playit_address = "name-leo.gl.joinmc.link"  # Default public address
 
-# Step 1: Detect the Minecraft LAN port from the log file
+# Step 1: Detect the Minecraft LAN port from the log 
 def detect_minecraft_port():
     log_path = os.path.expanduser("~\\AppData\\Roaming\\.minecraft\\logs\\latest.log")
     try:
